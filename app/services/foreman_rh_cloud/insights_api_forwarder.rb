@@ -318,7 +318,6 @@ module ForemanRhCloud
 
       # Deny-by-default: reject if no matching pattern or no permission mapping for this HTTP method
       unless permissions
-        logger.warn("Unmapped operation: #{http_method} #{path}")
         raise UnsupportedOperationError.new(N_("This operation is not supported"))
       end
 
@@ -410,7 +409,7 @@ module ForemanRhCloud
     def scope_request?(original_request, path)
       return nil unless original_request.get?
 
-      resolve_pattern(path)&.[](:tag_name)
+      resolve_pattern(path)&.dig(:tag_name)
     end
 
     def core_app_name
